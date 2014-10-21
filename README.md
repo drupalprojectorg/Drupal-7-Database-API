@@ -1,7 +1,7 @@
 Drupal-7-Database-API
 =====================
 
-Drupal 7 数据库接口官网文档翻译
+[Drupal 7 数据库接口官网文档](https://www.drupal.org/developing/api/database)翻译
 
 Drupal 7 数据库 API 为访问数据库服务器提供了一个标准化的，引擎无关的抽象层。API 被设计成尽可能的保留了SQL和语法和能力，同时还具有以下特性：
 
