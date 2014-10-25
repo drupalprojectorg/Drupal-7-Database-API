@@ -1,3 +1,3 @@
 # 动态查询
 
-Dynamic queries refer to queries that are built dynamically by Drupal rather than provided as an explicit query string. All Insert, Update, Delete, and Merge queries must be dynamic. Select queries may be either static or dynamic. Therefore, "dynamic query" generally refers to a dynamic Select query.
+动态查询是指由Drupal动态构建的查询，而不是显式地提供的查询语句字符串。所有的 `Insert`，`Update`，`Delete` 和 `Merge` 查询必须是动态查询。`Select` 语句可以是静态查询也可以是动态查询。因此，动态查询通常指的是一个动态的 `Select` 查询。
