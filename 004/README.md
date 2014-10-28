@@ -25,3 +25,4 @@ In this case, "users" is the base table for the query; that is, the first table 
 
 The value returned by the db_select() call is an object of type SelectQuery. Therefore, the type of value in the $query variable after this call is an object of type SelectQuery. This object has a whole list of methods such as fields(), joins() and group() which can be called to further define the query.
 
+在这个例子中， `users` 是查询的基础表，也就是SQL语句中放在 FROM 后的第一个表。注意，这里不可以用花括号包围表名。查询构建器将会自动帮你处理。第二个参数是表的别名。如果没指定，表名将被使用作为别名。`$options` 数组是可选的，参数格式和作用与静态查询的一样。
