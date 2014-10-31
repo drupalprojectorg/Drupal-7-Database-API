@@ -29,10 +29,6 @@ $query = db_select('users', 'u', $options);
 
 ## 主要部分
 
-Here is a relatively simple query of the users table.
-
-Let's say we want to create a dynamic query which is roughly equivalent to the following static query:
-
 这是一个相对简单的，对 users 表的查询。
 
 我们的目的是构建一个动态查询，其等价于下面的静态查询：
@@ -55,8 +51,6 @@ $query->fields('u', array('uid', 'name', 'status', 'created', 'access'));
 $query->range(0, 50);
 ?>
 ```
-
-This is often written using the shorthand syntax used to call multiple methods at the same time on the $query object. The code above would therefore often be written as follows:
 
 通常我们使用其简洁的链式调用语法对 `$query` 对象同时调用多个方法。上面的代码通常被写成下面的样子：
 
@@ -89,7 +83,6 @@ $query = db_select('users', 'u')
 
 ## 执行查询
 
-Note: Be careful when using the following methods with a multi-column, dynamic query:
 一旦查询被构建，调用 `execute()` 方法编译和执行查询。
 
 ``` php
