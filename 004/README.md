@@ -68,7 +68,7 @@ $query
 
 确实，代码还可以而且经常被写成一步到位的，从 `db_select()` 开始直接一直调用生成查询结果，即：
 
-```
+``` php
 <?php
 // Create an object of type SelectQuery and directly
 // add extra detail to this query object: a condition, fields and a range
