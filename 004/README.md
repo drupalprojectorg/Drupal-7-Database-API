@@ -89,14 +89,6 @@ $query = db_select('users', 'u')
 
 ## 执行查询
 
-The execute() method will return a result set / statement object that is identical to that returned by db_query(), and it may be iterated or fetched in the exact same way:
-
-<?php
-$result = $query->execute();
-foreach ($result as $record) {
-  // Do something with each $record
-}
-?>
 Note: Be careful when using the following methods with a multi-column, dynamic query:
 一旦查询被构建，调用 `execute()` 方法编译和执行查询。
 
@@ -106,6 +98,75 @@ $result = $query->execute();
 ?>
 ```
 
-The execute() method will return a result set / statement object that is identical to that returned by db_query(), and it may be iterated or fetched in the exact same way:
+execute()方法可以返回一个结果集对象，等价于使用 `db_query()` 返回的对象，可以用相同的方式循环迭代或取值。
 
-execute()方法可以返回一个结果集对象，等价于使用 `db_query()` 
+``` php
+<?php
+$result = $query->execute();
+foreach ($result as $record) {
+  // Do something with each $record
+}
+?>
+```
+
+注意：在多字段动态查询时要小心使用下面方法的：
+
+* [fetchField()](http://api.drupal.org/api/drupal/includes--database--database.inc/function/DatabaseStatementInterface%3A%3AfetchField/7)
+* [fetchAllKeyed()](http://api.drupal.org/api/drupal/includes--database--database.inc/function/DatabaseStatementInterface%3A%3AfetchAllKeyed/7)
+* [fetchCol()](http://api.drupal.org/api/drupal/includes--database--database.inc/function/DatabaseStatementInterface%3A%3AfetchCol/7)
+
+目前，这些方法需要数字的索引（例如，0，1，2）而不是表别名。然而，查询构建器不能保证返回字段的排列顺序，因此数据列可能以不是你期望的顺序返回。特别地，查询表达式总是在字段后被加入，即使你先调用查询表达式方法。（这个问题在静态查询时是没有的，静态查询总是能以指定的顺序返回字段）
+
+## 调试
+
+为了在程序运行到特定位置时检查SQL语句和参数，可以调用 `__toString()` 方法：
+
+``` php
+<?php
+print_r($query->__toString());
+print_r($query->arguments());
+?>
+```
+
+## 精彩评论
+
+动态查询还支持union，返回的仍然是$query对象：
+
+``` php
+$query->union($otherQuery, 'UNION ALL');
+```
+一个使用 `db_select()` 和分页器的示例代码，无需纠结表名和字段，只是一个代码示例：
+
+``` php
+<?php
+$query = db_select(TABLE_DATA_SIDANG, 'ds')
+  ->condition('tanggal', $tanggal . " 00:00:00")
+  ->extend('PagerDefault')
+    ->limit(10)
+  ->extend('TableSort')
+    ->orderByHeader($header)
+  ->fields ('ds', array (
+                      'no_perk',
+                      'tingkat',
+                      'tanggal',
+                      'ruang',
+                      'tim',
+                      'no_majelis',
+  ));
+  $query->leftJoin(TABLE_DATA_REG_AC, 'ra', 'ra.no_perk = ds.no_perk');
+  $query->fields ('ra', array (
+                        'nama_pe',
+                        'nama_ter',
+  ));
+  $res = $query->execute();
+?>
+```
+
+OR语句示例，后面的文档还会详细介绍：
+
+``` php
+$db_or = db_or();
+$db_or->condition('n.type', 'event', '=');
+$db_or->condition('n.type', 'article', '=');
+$query->condition($db_or);
+```
